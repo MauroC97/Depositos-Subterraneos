@@ -39,10 +39,10 @@ public class Generador_Arch_Salida {
 		d_sig=arr.get(1);
 		mts_a_emparejar=d.prof-d_sig.prof;
 		vol_x_m_total+=d.vol_x_metro;
-		if(vol_a_ing < vol_x_m_total*mts_a_emparejar)
+		if(vol_a_ing <= vol_x_m_total*mts_a_emparejar)
 		{
 			d.volumen+=vol_a_ing;
-			this.dist_a_superficie= (int)(d.volumen/d.vol_x_metro);
+			this.dist_a_superficie= d.prof-(int)(d.volumen/d.vol_x_metro);
 			return;
 		}
 		d.volumen+=vol_x_m_total*mts_a_emparejar;
@@ -55,7 +55,7 @@ public class Generador_Arch_Salida {
 			d_sig=arr.get(i+1);
 			mts_a_emparejar=d.prof-d_sig.prof;
 			vol_x_m_total+=d.vol_x_metro;
-			if(vol_a_ing < vol_x_m_total*mts_a_emparejar)
+			if(vol_a_ing <= vol_x_m_total*mts_a_emparejar)
 			{
 				vol_a_ing/=vol_x_m_total;//ahora son los metros que puedo ingresar con el volumen que me queda
 				for (j=0;j<i;j++)
@@ -63,7 +63,7 @@ public class Generador_Arch_Salida {
 					d=arr.get(j);
 					d.volumen+=d.vol_x_metro*(int)vol_a_ing;
 				}
-				this.dist_a_superficie= (int)(d.volumen/d.vol_x_metro);
+				this.dist_a_superficie= d.prof-(int)(d.volumen/d.vol_x_metro);
 				return;
 			}
 			for (j=0;j<i;j++)
@@ -83,7 +83,7 @@ public class Generador_Arch_Salida {
 			x.volumen+=x.vol_x_metro*(int)vol_a_ing;
 		}
 		this.depositos_cargados=total_dep;
-		this.dist_a_superficie= (int)(d.volumen/d.vol_x_metro);
+		this.dist_a_superficie= d.prof-(int)(d.volumen/d.vol_x_metro);
 		return;
 		
 	}
@@ -96,9 +96,21 @@ public class Generador_Arch_Salida {
 			return;
 		}
 		this.llenar_depositos();
-		
+		pw.println(this.depositos_cargados);
+		pw.println(this.dist_a_superficie);
 		
 		pw.close();
+	}
+	
+	public static void main(String[] args) throws IOException {
+		Generador_Arch_Salida gen1 = new Generador_Arch_Salida("Pruebas/in/00_enunciado.in","Pruebas/out/00_enunciado.out");
+		Generador_Arch_Salida gen2 = new Generador_Arch_Salida("Pruebas/in/01_enunciado.in","Pruebas/out/01_enunciado.out");
+		Generador_Arch_Salida gen3 = new Generador_Arch_Salida("Pruebas/in/02_1deposito.in","Pruebas/out/02_1deposito.out");
+		Generador_Arch_Salida gen4 = new Generador_Arch_Salida("Pruebas/in/03_exacto.in","Pruebas/out/03_exacto.out");
+		gen1.generar_salida();
+		gen2.generar_salida();
+		gen3.generar_salida();
+		gen4.generar_salida();
 	}
 	
 }
